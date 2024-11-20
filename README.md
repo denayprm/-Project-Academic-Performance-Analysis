@@ -1,4 +1,5 @@
 # Tentang Project Academic Performance Analysis
+Mata Kuliah: Data Science
 
 ## Judul:
 Analisis dan Prediksi Faktor Penentu Prestasi Akademik Siswa Menggunakan Metode Regresi, Klasifikasi, dan Clustering
@@ -21,6 +22,3 @@ Cortez, P. (2008). Student Performance [Dataset]. UCI Machine Learning Repositor
 ## Kebermanfaatan:
 -   Memberikan insight kepada pendidik mengenai faktor risiko dan potensi keberhasilan siswa.
 -   Membantu perencanaan strategi peningkatan prestasi berdasarkan hasil prediksi dan segmentasi siswa.
-
-## Sumber Data: 
-Cortez, P. (2008). Student Performance [Dataset]. UCI Machine Learning Repository. (https://doi.org/10.24432/C5TG7T).
