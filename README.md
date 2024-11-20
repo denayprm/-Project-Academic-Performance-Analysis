@@ -22,5 +22,5 @@ Cortez, P. (2008). Student Performance [Dataset]. UCI Machine Learning Repositor
 -   Memberikan insight kepada pendidik mengenai faktor risiko dan potensi keberhasilan siswa.
 -   Membantu perencanaan strategi peningkatan prestasi berdasarkan hasil prediksi dan segmentasi siswa.
 
-## Sumber Data       : 
+## Sumber Data: 
 Cortez, P. (2008). Student Performance [Dataset]. UCI Machine Learning Repository. (https://doi.org/10.24432/C5TG7T).
