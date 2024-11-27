@@ -32,3 +32,33 @@ head(student_mat)
 head(student_por)
 ```
 
+# 2. Exploration Data
+
+```{r}
+
+```
+
+# 3. Cleaning Data
+
+```{r}
+
+```
+
+# 4. Regression
+
+```{r}
+
+```
+
+# 5. Classification
+
+```{r}
+
+```
+
+# 6. Clustering
+
+```{r}
+
+```
+
