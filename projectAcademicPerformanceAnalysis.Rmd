@@ -16,6 +16,9 @@ Library yang akan digunakan
 library(readr)
 library(tidyverse)
 library(dplyr)
+library(caret)
+library(randomForest)
+library(rpart)
 ```
 
 # 1. Import Dataset
@@ -35,9 +38,9 @@ student_por_data <- read_delim("resources/dataset/student-por.csv",
 
 ```{r}
 # 1. Display Data
-head(student_mat_data)
+head(student_mat_data, 5)
 
-head(student_por_data)
+head(student_por_data, 5)
 ```
 
 ```{r}
@@ -61,14 +64,14 @@ summary(student_por_data)
 # 3. Cleaning Data
 
 ```{r}
-# 1. Menggabungkan dataset
+# 1. Merge Datasets
 student_mat_data$course <- "Math"
 student_por_data$course <- "Portuguese"
 student_data <- bind_rows(student_mat_data, student_por_data)
 ```
 
 ```{r}
-# 2. Seleksi kolom
+# 2. Select Columns
 selected_columns <- c("sex", "age", "address", "studytime", "failures", 
                       "schoolsup", "famsup", "freetime", "goout", "romantic", 
                       "G1", "G2", "G3")
@@ -76,7 +79,7 @@ student_data <- student_data[, selected_columns]
 ```
 
 ```{r}
-# 3. Praproses data kategorikal
+# 3. Pre-Process Categorical Data
 student_data <- student_data %>%
   mutate(
     sex = ifelse(sex == "F", 0, 1),
@@ -88,25 +91,161 @@ student_data <- student_data %>%
 ```
 
 ```{r}
-# 4. Penanganan nilai kosong
+# 4. Handle Empty Values
 student_data <- na.omit(student_data)
 ```
 
 ```{r}
-# 6. Menampilkan data yang telah dibersihkan
+# 6. Display Cleared Data
 head(student_data, 5)
+```
+
+# 4. Pre-Processing
+
+```{r}
+# 1. Functions for data preparation
+student_prepare_data <- function(student_data) {
+  # Split features for regression and classification
+  X <- student_data %>%
+    select(G1, G2, studytime, failures, freetime, goout)
+  
+  # Target for regression
+  y_reg <- student_data$G3
+  
+  # Target for classification with categorization
+  y_class <- cut(student_data$G3,
+                 breaks = c(0, 10, 15, 20),
+                 labels = c('low', 'medium', 'high'))
+  
+  # Return list with all variables
+  list(X = X, y_reg = y_reg, y_class = y_class)
+}
+```
+
+```{r}
+# 2. Analysis execution
+student_data_processed <- student_prepare_data(student_data)
 ```
 
 # 4. Regression
 
 ```{r}
+# 1. Function for regression modeling
+student_perform_regression <- function(X, y_reg) {
+  # Split data
+  set.seed(42)
+  split_index <- createDataPartition(y_reg, p = 0.8, list = FALSE)
+  
+  X_train <- X[split_index, ]
+  X_test <- X[-split_index, ]
+  y_train <- y_reg[split_index]
+  y_test <- y_reg[-split_index]
+  
+  # Random Forest Model
+  rf_model <- randomForest(
+    x = X_train,
+    y = y_train,
+    ntree = 100,
+    random_state = 42
+  )
+  
+  # Predict
+  y_pred <- predict(rf_model, X_test)
+  
+  # Evaluation
+  mae <- mean(abs(y_test - y_pred))
+  rmse <- sqrt(mean((y_test - y_pred)^2))
 
+  # Fitur importance
+  feature_importance <- data.frame(
+    Feature = colnames(X),
+    Importance = importance(rf_model)
+  )
+
+  # Return result
+  list(
+    model = rf_model,
+    predictions = y_pred,
+    mae = mae,
+    rmse = rmse,
+    feature_importance = feature_importance
+  )
+}
+```
+
+```{r}
+# 2. Regression
+student_regression_results <- student_perform_regression(
+  student_data_processed$X,
+  student_data_processed$y_reg
+)
+```
+
+```{r}
+# 3. Display results
+print("Regresi - Pentingnya Fitur:")
+print(student_regression_results$feature_importance)
+
+print("Regresi - Metrik:")
+print(paste("MAE:", student_regression_results$mae))
+print(paste("RMSE:", student_regression_results$rmse))
 ```
 
 # 5. Classification
 
 ```{r}
+# 1. Function for classification modeling
+student_perform_classification <- function(X, y_class) {
+  # Split data
+  set.seed(42)
+  split_index <- createDataPartition(y_class, p = 0.8, list = FALSE)
+  
+  X_train <- X[split_index, ]
+  X_test <- X[-split_index, ]
+  y_train <- y_class[split_index]
+  y_test <- y_class[-split_index]
+  
+  # Handle Missing values
+  X_train <- X_train %>%
+    mutate(across(everything(), ~replace_na(., mean(., na.rm = TRUE))))
+  
+  X_test <- X_test %>%
+    mutate(across(everything(), ~replace_na(., mean(., na.rm = TRUE))))
+  
+  # Decision Tree Model
+  dt_model <- rpart(
+    formula = y_train ~ .,
+    data = data.frame(X_train, y_train),
+    method = "class"
+  )  
+  
+  # Predict
+  y_pred <- predict(dt_model, X_test, type = "class")
+  
+  # Evaluation
+  conf_matrix <- confusionMatrix(y_pred, y_test)
+  
+  # Return result
+  list(
+    model = dt_model,
+    predictions = y_pred,
+    confusion_matrix = conf_matrix
+  )
+}
+```
 
+```{r}
+# 2. Classification
+student_classification_results <- student_perform_classification(
+  student_data_processed$X,
+  student_data_processed$y_class
+)
+```
+
+```{r}
+# 3. Displa result
+print("Klasifikasi - Confusion Matrix:")
+print(student_classification_results$confusion_matrix)
 ```
 
 # 6. Clustering
