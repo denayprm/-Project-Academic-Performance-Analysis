@@ -294,7 +294,7 @@ student_perform_clustering_analysis <- function(student_data) {
   
   # 2. Perform K-Means clustering
   student_perform_kmeans <- function(student_data, k = 3) {
-    set.seed(42)
+    set.seed(125)
     student_km_result <- kmeans(student_data, centers = k, nstart = 25)
     student_sil <- silhouette(student_km_result$cluster, dist(student_data))
     
