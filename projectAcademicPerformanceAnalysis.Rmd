@@ -243,7 +243,7 @@ student_classification_results <- student_perform_classification(
 ```
 
 ```{r}
-# 3. Displa result
+# 3. Display result
 print("Klasifikasi - Confusion Matrix:")
 print(student_classification_results$confusion_matrix)
 ```
