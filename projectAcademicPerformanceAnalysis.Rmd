@@ -19,6 +19,13 @@ library(dplyr)
 library(caret)
 library(randomForest)
 library(rpart)
+library(cluster)
+library(factoextra)
+library(corrplot)
+library(ggplot2)
+library(reshape2)
+library(stats)
+library(NbClust)
 ```
 
 # 1. Import Dataset
@@ -251,6 +258,135 @@ print(student_classification_results$confusion_matrix)
 # 6. Clustering
 
 ```{r}
+# Load required libraries
+library(dplyr)
+library(ggplot2)
+library(corrplot)
+library(cluster)
+library(factoextra)
 
+# Function for clustering analysis
+student_perform_clustering_analysis <- function(student_data) {
+  # Prepare data for clustering
+  student_clustering_data <- student_data %>%
+    select(studytime, freetime, goout) %>%
+    scale()  # Standardize the data
+  
+  # 1. Elbow Method to determine the optimal number of clusters
+  student_elbow_method <- function(student_data) {
+    # Calculate total within-cluster sum of squares for various k values
+    wss <- sapply(1:10, function(k) {
+      kmeans(student_data, centers = k, nstart = 25)$tot.withinss
+    })
+    
+    # Plot the Elbow Method
+    student_plt_elbow <- ggplot(data.frame(k = 1:10, wss = wss), 
+                                aes(x = k, y = wss)) +
+      geom_line() +
+      geom_point() +
+      labs(title = "Elbow Method for Optimal Clusters",
+           x = "Number of Clusters (k)",
+           y = "Total Within-Cluster Sum of Squares")
+    
+    print(student_plt_elbow)
+    return(wss)
+  }
+  
+  # Execute Elbow Method
+  student_elbow_method(student_clustering_data)
+  
+  # 2. Perform K-Means clustering
+  student_perform_kmeans <- function(student_data, k = 3) {
+    set.seed(42)
+    # Apply K-Means clustering
+    student_km_result <- kmeans(student_data, centers = k, nstart = 25)
+    
+    # Analyze silhouette
+    student_sil <- silhouette(student_km_result$cluster, dist(student_data))
+    
+    # Plot silhouette
+    student_plt_sil <- fviz_silhouette(student_sil) +
+      labs(title = "Silhouette Plot")
+    print(student_plt_sil)
+    
+    return(list(
+      student_kmeans = student_km_result,
+      silhouette = student_sil
+    ))
+  }
+  
+  # Run K-Means clustering
+  student_km_results <- student_perform_kmeans(student_clustering_data)
+  
+  # 3. Visualize clustering with PCA
+  student_pca_visualization <- function(student_data, clusters) {
+    # Perform PCA
+    student_pca_result <- prcomp(student_data)
+    
+    # Extract the first two principal components
+    student_pca_data <- as.data.frame(student_pca_result$x[, 1:2])
+    student_pca_data$Cluster <- as.factor(clusters)
+    
+    # Plot PCA
+    student_plt_pca <- ggplot(student_pca_data, aes(x = PC1, y = PC2, color = Cluster)) +
+      geom_point(alpha = 0.7) +
+      labs(title = "Clustering Visualization (PCA)",
+           x = "First Principal Component",
+           y = "Second Principal Component") +
+      theme_minimal()
+    
+    print(student_plt_pca)
+  }
+  
+  # Perform PCA visualization
+  student_pca_visualization(student_clustering_data, student_km_results$student_kmeans$cluster)
+  
+  # 4. Analyze cluster characteristics
+  student_cluster_analysis <- student_data %>%
+    mutate(Cluster = student_km_results$student_kmeans$cluster) %>%
+    group_by(Cluster) %>%
+    summarise(
+      mean_studytime = mean(studytime),
+      mean_freetime = mean(freetime),
+      mean_goout = mean(goout)
+    )
+  
+  print("Cluster Characteristics:")
+  print(student_cluster_analysis)
+  
+  # 5. Visualize correlation matrix
+  student_correlation_matrix <- cor(student_data %>% select(studytime, freetime, goout, G1, G2, G3))
+  
+  corrplot(
+    student_correlation_matrix, 
+    method = "color", 
+    type = "full",
+    title = "Correlation Matrix"
+  )
+  
+  # 6. Distribution of performance categories
+  y_class <- cut(student_data$G3, 
+                 breaks = c(0, 10, 15, 20), 
+                 labels = c('low', 'medium', 'high'))
+  
+  student_plt_dist <- ggplot(data.frame(y_class), aes(x = y_class)) +
+    geom_bar(fill = "skyblue") +
+    labs(title = "Distribution of Performance Categories",
+         x = "Performance Category",
+         y = "Number of Students")
+  
+  print(student_plt_dist)
+  
+  # Return all results
+  return(list(
+    student_kmeans_result = student_km_results,
+    student_cluster_characteristics = student_cluster_analysis
+  ))
+}
+```
+
+```{r}
+# Run clustering analysis
+student_clustering_results <- student_perform_clustering_analysis(student_data)
 ```
 
