@@ -14,20 +14,20 @@ knitr::opts_chunk$set(echo = TRUE)
 Library yang akan digunakan
 
 ```{r}
-library(readr)
-library(tidyverse)
-library(dplyr)
-library(caret)
-library(randomForest)
-library(rpart)
-library(cluster)
-library(factoextra)
-library(corrplot)
-library(ggplot2)
-library(reshape2)
-library(stats)
-library(NbClust)
-library(viridis)
+library(readr)  # Untuk membaca data dengan cepat dari berbagai format seperti CSV
+library(tidyverse)  # Sekumpulan paket terintegrasi untuk analisis data yang mendukung tidy data
+library(dplyr)  # Untuk manipulasi data dengan sintaks yang bersih dan intuitif
+library(caret)  # Untuk membangun model prediktif, termasuk pemilihan fitur dan evaluasi model
+library(randomForest)  # Untuk membangun model Random Forest untuk klasifikasi dan regresi
+library(rpart)  # Untuk membuat model pohon keputusan (decision trees)
+library(cluster)  # Menyediakan fungsi untuk analisis clustering seperti k-means dan agglomerative
+library(factoextra)  # Memudahkan visualisasi hasil analisis multivarian seperti clustering dan PCA
+library(corrplot)  # Memfasilitasi visualisasi matriks korelasi
+library(ggplot2)  # Paket grafis yang powerful untuk membuat visualisasi data
+library(reshape2)  # Memudahkan mengubah data antara format lebar dan panjang
+library(stats)  # Paket bawaan R untuk analisis statistik dasar
+library(NbClust)  # Memfasilitasi penentuan jumlah cluster optimal dengan berbagai metode
+library(viridis)  # Menawarkan palet warna yang baik untuk visualisasi yang dapat diakses
 ```
 
 # 1. Import Dataset
