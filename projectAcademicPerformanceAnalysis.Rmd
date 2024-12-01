@@ -190,9 +190,11 @@ student_regression_results <- student_perform_regression(
 
 ```{r}
 # 3. Display results
-print("Regresi - Pentingnya Fitur:")
+cat("Regresi - Pentingnya Fitur:")
 print(student_regression_results$feature_importance)
+```
 
+```{r}
 print("Regresi - Metrik:")
 print(paste("MAE:", student_regression_results$mae))
 print(paste("RMSE:", student_regression_results$rmse))
@@ -258,13 +260,6 @@ print(student_classification_results$confusion_matrix)
 # 6. Clustering
 
 ```{r}
-# Load required libraries
-library(dplyr)
-library(ggplot2)
-library(corrplot)
-library(cluster)
-library(factoextra)
-
 # Function for clustering analysis
 student_perform_clustering_analysis <- function(student_data) {
   # Prepare data for clustering
