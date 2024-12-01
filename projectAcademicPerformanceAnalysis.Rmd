@@ -49,25 +49,18 @@ student_por_data <- read_delim("resources/dataset/student-por.csv",
 ```{r}
 # 1. Display Data
 head(student_mat_data, 5)
-
 head(student_por_data, 5)
 ```
 
 ```{r}
 # 2. Display Data Structure
-cat("STUDENT MAT DATA\n")
 str(student_mat_data)
-
-cat("\nSTUDENT POR DATA\n")
 str(student_por_data)
 ```
 
 ```{r}
 # 3. Descriptive Stats
-cat("STUDENT MAT DATA\n")
 summary(student_mat_data)
-
-cat("\nSTUDENT POR DATA\n")
 summary(student_por_data)
 ```
 
@@ -385,7 +378,6 @@ student_perform_clustering_analysis <- function(student_data) {
   ))
 }
 ```
-
 
 ```{r}
 # Run clustering analysis
