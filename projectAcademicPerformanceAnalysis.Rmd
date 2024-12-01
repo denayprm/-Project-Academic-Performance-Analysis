@@ -15,17 +15,18 @@ Library yang akan digunakan
 ```{r}
 library(readr)
 library(tidyverse)
+library(dplyr)
 ```
 
 # 1. Import Dataset
 Dataset yang akan digunakan
 
 ```{r}
-# Student Mat
+# 1. Student Mat
 student_mat_data <- read_delim("resources/dataset/student-mat.csv", 
     delim = ";", escape_double = FALSE, trim_ws = TRUE)
 
-# Student Por
+# 2. Student Por
 student_por_data <- read_delim("resources/dataset/student-por.csv", 
     delim = ";", escape_double = FALSE, trim_ws = TRUE)
 ```
@@ -33,14 +34,14 @@ student_por_data <- read_delim("resources/dataset/student-por.csv",
 # 2. Exploration Data
 
 ```{r}
-# Display Data
+# 1. Display Data
 head(student_mat_data)
 
 head(student_por_data)
 ```
 
 ```{r}
-# Display Data Structure
+# 2. Display Data Structure
 cat("STUDENT MAT DATA\n")
 str(student_mat_data)
 
@@ -49,7 +50,7 @@ str(student_por_data)
 ```
 
 ```{r}
-# Descriptive Stats
+# 3. Descriptive Stats
 cat("STUDENT MAT DATA\n")
 summary(student_mat_data)
 
@@ -60,7 +61,40 @@ summary(student_por_data)
 # 3. Cleaning Data
 
 ```{r}
+# 1. Menggabungkan dataset
+student_mat_data$course <- "Math"
+student_por_data$course <- "Portuguese"
+student_data <- bind_rows(student_mat_data, student_por_data)
+```
 
+```{r}
+# 2. Seleksi kolom
+selected_columns <- c("sex", "age", "address", "studytime", "failures", 
+                      "schoolsup", "famsup", "freetime", "goout", "romantic", 
+                      "G1", "G2", "G3")
+student_data <- student_data[, selected_columns]
+```
+
+```{r}
+# 3. Praproses data kategorikal
+student_data <- student_data %>%
+  mutate(
+    sex = ifelse(sex == "F", 0, 1),
+    address = ifelse(address == "U", 0, 1),
+    schoolsup = ifelse(schoolsup == "no", 0, 1),
+    famsup = ifelse(famsup == "no", 0, 1),
+    romantic = ifelse(romantic == "no", 0, 1)
+  )
+```
+
+```{r}
+# 4. Penanganan nilai kosong
+student_data <- na.omit(student_data)
+```
+
+```{r}
+# 6. Menampilkan data yang telah dibersihkan
+head(student_data, 5)
 ```
 
 # 4. Regression
