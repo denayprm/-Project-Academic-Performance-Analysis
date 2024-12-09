@@ -3,7 +3,7 @@ title: "Mini Project Academic Performance Analysis"
 author: "Deni Permana - Diaz Fahreza Akbar"
 date: "2024-11-24"
 output: pdf_document
----
+--- 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
