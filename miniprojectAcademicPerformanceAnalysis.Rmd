@@ -21,12 +21,15 @@ if (!requireNamespace("readr")) install.packages("readr")
 if (!requireNamespace("dplyr")) install.packages("dplyr")
 if (!requireNamespace("ggplot2")) install.packages("ggplot2")
 if (!requireNamespace("gridExtra")) install.packages("gridExtra")
+if (!requireNamespace("reshape2")) install.packages("reshape2")
 
 library(readr)  # Untuk membaca data dengan cepat dari berbagai format seperti CSV
 library(dplyr)  # Untuk manipulasi data dengan sintaks yang bersih dan intuitif
 
 library(ggplot2)  # Paket grafis yang powerful untuk membuat visualisasi data
 library(gridExtra)  # Untuk menampilkan beberapa plot dalam satu tampilan
+
+library(reshape2)  # Memudahkan mengubah data antara format lebar dan panjang
 ```
 
 ### Import Dataset
@@ -203,34 +206,86 @@ Membuat visualisasi yang menarik untuk menceritakan data.
 
 ##### Scatter Plot:
 
-Untuk menggambarkan hubungan antara jumlah waktu belajar dan nilai akhir (G3).
+<!-- Untuk menggambarkan hubungan antara jumlah waktu belajar dan nilai akhir (G3). -->
 
 ```{r}
+# Scatter Plot: Hubungan antara Waktu Belajar dan Nilai G3
+scatter_studytime_g3 <- ggplot(student_mat_data, aes(x = studytime, y = G3, color = factor(sex))) +
+  geom_point(alpha = 0.6) +
+  labs(title = "Hubungan antara Waktu Belajar dan Nilai G3",
+       x = "Waktu Belajar",
+       y = "Nilai G3",
+       color = "Jenis Kelamin") +
+  scale_color_manual(values = c("blue", "orange"), labels = c("Female", "Male")) +
+  theme_minimal()
 
+print(scatter_studytime_g3)
 ```
 
 ##### Bar Plot:
 
-Untuk menganalisis perbandingan nilai berdasarkan jenis kelamin atau status sosial.
+<!-- Untuk menganalisis perbandingan nilai berdasarkan jenis kelamin atau status sosial. -->
 
 ```{r}
+# Bar Plot: Rata-rata Nilai G3 Berdasarkan Jenis Kelamin
+avg_g3_gender <- student_mat_data %>%
+  group_by(sex) %>%
+  summarise(mean_G3 = mean(G3, na.rm = TRUE))
 
+barplot_gender <- ggplot(avg_g3_gender, aes(x = factor(sex), y = mean_G3, fill = factor(sex))) +
+  geom_bar(stat = "identity", alpha = 0.7) +
+  labs(title = "Rata-rata Nilai G3 Berdasarkan Jenis Kelamin",
+       x = "Jenis Kelamin",
+       y = "Rata-rata Nilai G3") +
+  scale_x_discrete(labels = c("0" = "Female", "1" = "Male")) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+print(barplot_gender)
 ```
 
 #### Heatmap/Korelasi:
 
-Untuk melihat hubungan antar variabel numerik dan mengidentifikasi pola.
+<!-- Untuk melihat hubungan antar variabel numerik dan mengidentifikasi pola. -->
 
 ```{r}
+# Heatmap: Korelasi antar Variabel Numerik
+correlation_matrix <- cor(student_mat_data %>% select(G1, G2, G3, failures, studytime, absences), use = "complete.obs")
 
+## Mengubah matriks korelasi menjadi format yang bisa digunakan untuk ggplot
+correlation_melted <- melt(correlation_matrix)
+
+heatmap_plot <- ggplot(correlation_melted, aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1, 1), space = "Lab", 
+                       name="Korelasi") +
+  labs(title = "Heatmap Korelasi Antara Variabel", x = "", y = "") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+print(heatmap_plot)
 ```
 
 #### Pie Chart:
 
-Untuk proporsi kategori dalam variabel seperti jenis kelamin atau status dukungan keluarga.
+<!-- Untuk proporsi kategori dalam variabel seperti jenis kelamin atau status dukungan keluarga. -->
 
 ```{r}
+# Pie Chart: Proporsi Dukungan Keluarga
+family_support <- student_mat_data %>%
+  group_by(famsup) %>%
+  summarise(count = n())
 
+pie_chart <- ggplot(family_support, aes(x = "", y = count, fill = factor(famsup))) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y") +
+  labs(title = "Proporsi Dukungan Keluarga",
+       fill = "Dukungan Keluarga") +
+  scale_fill_manual(values = c("lightblue", "lightgreen"), labels = c("Tidak", "Ya")) +
+  theme_void()
+
+print(pie_chart)
 ```
 
 
