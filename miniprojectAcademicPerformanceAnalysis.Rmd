@@ -348,7 +348,7 @@ print(heatmap_plot)
 
 **Penjelasan:** Heatmap ini menunjukkan korelasi antara variabel-variabel numerik dalam dataset. Misalnya, terdapat korelasi positif yang kuat antara nilai G1, G2, dan G3, yang menunjukkan bahwa siswa yang mendapatkan nilai baik di awal cenderung mempertahankan performa mereka.
 
-![nilai 1.0 menunjukan korelasi positif yang kuat, nilai -1.0 menunjukan korelasi negatif yang kuat, dan jika nilai mendekati nol artinya tidak ada korelasi yang jelas. jadi semakin nilainya mendekati nilai positif maka tren nya positif begitupun sebaliknya.](images/heatmap math-por.png){width="44"}
+![nilai 1.0 menunjukan korelasi positif yang kuat, nilai -1.0 menunjukan korelasi negatif yang kuat, dan jika nilai mendekati nol artinya tidak ada korelasi yang jelas. jadi semakin nilainya mendekati nilai positif maka tren nya positif begitupun sebaliknya.](images/heatmap math-por.png "Potongan visualisasi heatmap:"){width="44"}
 
 #### 3.3.3 Pie Chart:
 
