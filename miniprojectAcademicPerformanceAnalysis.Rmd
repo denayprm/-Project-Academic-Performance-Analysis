@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 0. Import Library dan Import Dataset
 
 ### Import Library
+
 Memuat paket yang diperlukan
 
 ```{r}
@@ -33,6 +34,7 @@ library(reshape2)  # Memudahkan mengubah data antara format lebar dan panjang
 ```
 
 ### Import Dataset
+
 Membaca dataset dari file CSV ke dalam R.
 
 ```{r}
@@ -49,14 +51,14 @@ student_por_data <- read_delim("resources/dataset/student-por.csv",
 ## 1. Data Understanding
 
 ### Tujuan:
+Memahami konteks, struktur, dan karakteristik dataset. Ini mencakup identifikasi variabel, analisis atribut, dan pemahaman tentang nilai yang hilang.
 
-<!-- Memahami konteks dan karakteristik dataset. -->
+### Hasil yang Diharapkan:
+Gambaran umum tentang dataset, termasuk dimensi, tipe data, dan potensi isu yang perlu diatasi sebelum analisis lebih lanjut.
 
-### Langkah-langkah: 
+### Langkah-langkah:
 
-#### Deskripsi Dataset: 
-
-<!-- Menampilkan dimensi dataset dan preview beberapa baris pertama untuk memberikan gambaran awal. -->
+#### Deskripsi Dataset:
 
 ##### Menghitung jumlah baris dan kolom
 
@@ -79,6 +81,7 @@ print(head(student_por_data, 5))  # Menampilkan 5 baris pertama dataset por
 ```
 
 ##### Analisis Struktur Data
+
 Menggunakan str() untuk melihat struktur dan tipe data dari setiap kolom.
 
 ```{r}
@@ -89,9 +92,9 @@ str(student_mat_data)  # Menampilkan struktur dataset mat
 str(student_por_data)  # Menampilkan struktur dataset por
 ```
 
-#### Identifikasi Variabel: 
-Menampilkan nama variabel yang terdapat dalam masing-masing dataset.
-<!-- Tentukan variabel yang relevan untuk analisis. Misalnya, variabel yang berkaitan dengan nilai akademis (G1, G2, G3), waktu belajar, dan faktor sosial. -->
+#### Identifikasi Variabel:
+
+Menampilkan nama variabel yang terdapat dalam masing-masing dataset. <!-- Tentukan variabel yang relevan untuk analisis. Misalnya, variabel yang berkaitan dengan nilai akademis (G1, G2, G3), waktu belajar, dan faktor sosial. -->
 
 ```{r}
 print(names(student_mat_data))  # Menampilkan nama kolom dataset mat
@@ -102,8 +105,8 @@ print(names(student_por_data))  # Menampilkan nama kolom dataset por
 ```
 
 #### Analisis Missing Values:
-Menghitung dan menampilkan jumlah nilai yang hilang dalam setiap kolom.
-<!-- Evaluasi apakah ada nilai yang hilang dalam dataset dan bagaimana cara menanganinya. -->
+
+Menghitung dan menampilkan jumlah nilai yang hilang dalam setiap kolom. <!-- Evaluasi apakah ada nilai yang hilang dalam dataset dan bagaimana cara menanganinya. -->
 
 ```{r}
 print(colSums(is.na(student_mat_data)))  # Menampilkan jumlah missing values per kolom dataset mat
@@ -116,14 +119,14 @@ print(colSums(is.na(student_por_data)))  # Menampilkan jumlah missing values per
 ## 2. Exploratory Data Analysis Awal
 
 ### Tujuan:
+Melihat data secara umum dan mendapatkan insight awal. Ini termasuk penggunaan statistik deskriptif dan visualisasi untuk memahami distribusi dan sebaran data.
 
-<!-- Melihat data secara umum dan mendapatkan insight awal. -->
+### Hasil yang Diharapkan:
+Pemahaman mendalam tentang distribusi nilai, outlier, dan pola awal yang dapat diidentifikasi dalam data.
 
 ### Langkah-langkah:
 
-#### Statistik Deskriptif: 
-
-<!-- Gunakan fungsi summary() untuk melihat ringkasan statistik dari variabel numerik. -->
+#### Statistik Deskriptif:
 
 ```{r}
 print(summary(student_mat_data))  # Menampilkan ringkasan statistik dataset mat
@@ -133,11 +136,11 @@ print(summary(student_mat_data))  # Menampilkan ringkasan statistik dataset mat
 print(summary(student_por_data))  # Menampilkan ringkasan statistik datset por
 ```
 
-#### Visualisasi Awal: 
+#### Visualisasi Awal:
 
 ##### Histogram:
-Histogram untuk Nilai G1, G2, G3
-<!-- Untuk melihat distribusi nilai G1, G2, dan G3. -->
+
+Histogram untuk Nilai G1, G2, G3 <!-- Untuk melihat distribusi nilai G1, G2, dan G3. -->
 
 ```{r}
 # G1
@@ -199,7 +202,7 @@ print(outliers)  # Menampilkan nilai outlier
 
 ## 3. Visualisasi Data
 
-### Tujuan: 
+### Tujuan:
 
 Membuat visualisasi yang menarik untuk menceritakan data.
 
@@ -294,7 +297,6 @@ pie_chart <- ggplot(family_support, aes(x = "", y = count, fill = factor(famsup)
 print(pie_chart)
 ```
 Pie chart ini menunjukkan bahwa sebagian besar siswa menerima dukungan keluarga. Dukungan keluarga dapat menjadi faktor penting dalam keberhasilan akademik siswa.
-
 
 ## 4. Analisis Data
 
