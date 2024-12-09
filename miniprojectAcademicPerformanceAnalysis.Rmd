@@ -67,7 +67,7 @@ Gambaran umum tentang dataset, termasuk dimensi, tipe data, dan potensi isu yang
 #### 1.3.1 Deskripsi Dataset:
 
 | No | Nama Variabel | Type | Deskripsi |
-|-----|-------------|-----------|--------------------------------------------|
+|----|----|----|----|
 | 1 | school | Categorical | 'student's school (GP' - Gabriel Pereira atau 'MS' - Mousinho da Silveira) |
 | 2 | sex | Binary | student's sex (binary: 'F' - female or 'M' - male) |
 | 3 | age | Integer | student's age (numeric: from 15 to 22) |
@@ -138,9 +138,13 @@ Menggunakan str() untuk melihat struktur dan tipe data dari setiap kolom.
 str(student_mat_data)  # Menampilkan struktur dataset mat
 ```
 
+**Penjelasan:** Output dari kode str(student_mat_data) menampilkan struktur dataset student_mat_data yang terdiri dari 395 baris dan 33 kolom. Setiap kolom memiliki tipe data yang berbeda, seperti karakter untuk kolom school, sex, address, dan lainnya, serta numerik untuk kolom age, Medu, Fedu, dan seterusnya. Informasi ini membantu dalam memahami struktur data sebelum melakukan analisis lebih lanjut.
+
 ```{r}
 str(student_por_data)  # Menampilkan struktur dataset por
 ```
+
+**Penjelasan:** Output dari kode str(student_por_data) menampilkan struktur dataset student_por_data yang terdiri dari 649 baris dan 33 kolom. Sama seperti student_mat_data, setiap kolom dalam dataset ini juga memiliki tipe data yang bervariasi, dengan kolom karakter seperti school, sex, address, dan kolom numerik seperti age, Medu, Fedu, dan lainnya. Informasi ini memberikan gambaran awal tentang data yang akan dianalisis.
 
 #### 1.3.2 Identifikasi Variabel:
 
@@ -150,9 +154,13 @@ Menampilkan nama variabel yang terdapat dalam masing-masing dataset.
 print(names(student_mat_data))  # Menampilkan nama kolom dataset mat
 ```
 
+**Penjelasan:** Menampilkan seluruh nama kolom yang ada pada dataset mat yang dimulai dari 'school' untuk kolom pertama dan 'G3' untuk kolom terakhir
+
 ```{r}
 print(names(student_por_data))  # Menampilkan nama kolom dataset por
 ```
+
+**Penjelasan:** Menampilkan seluruh nama kolom yang ada pada dataset mat yang dimulai dari 'school' untuk kolom pertama dan 'G3' untuk kolom terakhir
 
 #### 1.3.3 Analisis Missing Values:
 
@@ -162,9 +170,13 @@ Menghitung dan menampilkan jumlah nilai yang hilang dalam setiap kolom.
 print(colSums(is.na(student_mat_data)))  # Menampilkan jumlah missing values per kolom dataset mat
 ```
 
+**Penjelasan:** Semua kolom ditampilkan kembali tetapi dengan menghitung jumlah nilai yang kosong dari baris data mat yang ada 395 baris dan pada tiap kolom tidak ditemukan nilai yang kosong yang dilihat dari angka dibawah kolomnya 0 (nol).
+
 ```{r}
 print(colSums(is.na(student_por_data)))  # Menampilkan jumlah missing values per kolom dataset por
 ```
+
+**Penjelasan:** Semua kolom ditampilkan kembali tetapi dengan menghitung jumlah nilai yang kosong dari baris data mat yang ada 649 baris dan pada tiap kolom tidak ditemukan nilai yang kosong yang dilihat dari angka dibawah kolomnya 0 (nol).
 
 ## 2. Exploratory Data Analysis Awal
 
@@ -184,13 +196,13 @@ Pemahaman mendalam tentang distribusi nilai, outlier, dan pola awal yang dapat d
 print(summary(student_mat_data))  # Menampilkan ringkasan statistik dataset mat
 ```
 
-**Penjelasan:**
+**Penjelasan:** Ringkasan ini mencakup informasi seperti jumlah baris, tipe data, dan statistik dasar untuk setiap kolom. Misalnya, untuk kolom age, ringkasan ini menunjukkan nilai minimum, kuartil pertama, median, mean, kuartil ketiga, dan nilai maksimum. Selain itu, ringkasan ini juga mencakup informasi tentang distribusi nilai untuk kolom-kolom numerik lainnya seperti Medu, Fedu, traveltime, studytime, failures, famrel, freetime, goout, Dalc, Walc, health, absences, G1, G2, dan G3. Untuk kolom karakter seperti school, sex, address, famsize, Pstatus, Mjob, Fjob, reason, guardian, schoolsup, famsup, paid, activities, nursery, higher, internet, dan romantic, ringkasan ini memberikan panjang dan tipe data dari setiap kolom.
 
 ```{r}
 print(summary(student_por_data))  # Menampilkan ringkasan statistik dataset por
 ```
 
-**Penjelasan:**
+**Penjelasan:** Seperti pada dataset student_mat_data, ringkasan ini mencakup informasi dasar seperti jumlah baris, tipe data, dan statistik deskriptif untuk setiap kolom. Untuk kolom numerik seperti age, Medu, Fedu, traveltime, studytime, failures, famrel, freetime, goout, Dalc, Walc, health, absences, G1, G2, dan G3, ringkasan ini menunjukkan nilai minimum, kuartil pertama, median, mean, kuartil ketiga, dan nilai maksimum. Sedangkan untuk kolom karakter seperti school, sex, address, famsize, Pstatus, Mjob, Fjob, reason, guardian, schoolsup, famsup, paid, activities, nursery, higher, internet, dan romantic, ringkasan ini memberikan panjang dan tipe data dari setiap kolom. Ringkasan ini membantu dalam memahami distribusi dan karakteristik data sebelum melakukan analisis lebih lanjut.
 
 #### 2.3.2 Visualisasi Awal:
 
@@ -256,6 +268,8 @@ print(boxplot_studytime)
 outliers <- boxplot(student_mat_data$G3, plot = FALSE)$out
 print(outliers)  # Menampilkan nilai outlier
 ```
+
+**Penjelasan:** Menampilkan nilai outlier, dikarenakan tidak ada outlier maka nilanya 0(nol)
 
 ## 3. Visualisasi Data
 
