@@ -9,94 +9,210 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Exploratory Data Analysis
+# **Tahapan Exploratory Data Analysis (EDA)**
 
+## 0. Import Library dan Import Dataset
 
-## 0. Import Library
-Library yang akan digunakan
+### Import Library
+Memuat paket yang diperlukan untuk membaca data dan manipulasi.
 
 ```{r}
 library(readr)  # Untuk membaca data dengan cepat dari berbagai format seperti CSV
-library(tidyverse)  # Sekumpulan paket terintegrasi untuk analisis data yang mendukung tidy data
 library(dplyr)  # Untuk manipulasi data dengan sintaks yang bersih dan intuitif
 ```
 
-## 1. Import Dataset
-
-Dataset yang akan digunakan
+### Import Dataset
+Membaca dataset dari file CSV ke dalam R.
 
 ```{r}
-# 1. Student Mat
+# 1. Datset Student Mat
 student_mat_data <- read_delim("resources/dataset/student-mat.csv", 
     delim = ";", escape_double = FALSE, trim_ws = TRUE)
 
-# 2. Student Por
+# 2. Dataset Student Por
 student_por_data <- read_delim("resources/dataset/student-por.csv", 
     delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
 ```
 
-## 2. Exploration Data Awal
+## 1. Data Understanding
+
+### Tujuan:
+
+Memahami konteks dan karakteristik dataset.
+
+### Langkah-langkah: 
+
+#### Deskripsi Dataset: 
+
+Menampilkan dimensi dataset dan preview beberapa baris pertama untuk memberikan gambaran awal.
+
+##### Menghitung jumlah baris dan kolom
 
 ```{r}
-# 1. Display Data
-head(student_mat_data, 5)
-head(student_por_data, 5)
-```
-
-```{r}
-# 2. Display Data Structure
-str(student_mat_data)
-str(student_por_data)
-```
-
-```{r}
-# 3. Descriptive Stats
-summary(student_mat_data)
-summary(student_por_data)
-```
-
-## 3. Cleaning Data
-
-```{r}
-# 1. Merge Datasets
-student_mat_data$course <- "Math"
-student_por_data$course <- "Portuguese"
-student_data <- bind_rows(student_mat_data, student_por_data)
+cat(dim(student_mat_data), "\n")  # Menampilkan dimensi dataset mat
 ```
 
 ```{r}
-# 2. Select Columns
-selected_columns <- c("sex", "age", "address", "studytime", "failures", 
-                      "schoolsup", "famsup", "freetime", "goout", "romantic", 
-                      "G1", "G2", "G3")
-student_data <- student_data[, selected_columns]
+cat(dim(student_por_data), "\n")  # Menampilkan dimensi dataset por
+```
+
+##### Tampilkan beberapa baris pertama dari masing-masing dataset
+
+```{r}
+print(head(student_mat_data, 5))  # Menampilkan 5 baris pertama dataset mat
 ```
 
 ```{r}
-# 3. Pre-Process Categorical Data
-student_data <- student_data %>%
-  mutate(
-    sex = ifelse(sex == "F", 0, 1),
-    address = ifelse(address == "U", 0, 1),
-    schoolsup = ifelse(schoolsup == "no", 0, 1),
-    famsup = ifelse(famsup == "no", 0, 1),
-    romantic = ifelse(romantic == "no", 0, 1)
-  )
+print(head(student_por_data, 5))  # Menampilkan 5 baris pertama dataset por
+```
+
+##### Analisis Struktur Data
+Menggunakan str() untuk melihat struktur dan tipe data dari setiap kolom.
+
+```{r}
+str(student_mat_data)  # Menampilkan struktur dataset mat
 ```
 
 ```{r}
-# 4. Handle Empty Values
-student_data <- na.omit(student_data)
+str(student_por_data)  # Menampilkan struktur dataset por
+```
+
+#### Identifikasi Variabel: 
+Menampilkan nama variabel yang terdapat dalam masing-masing dataset.
+<!-- Tentukan variabel yang relevan untuk analisis. Misalnya, variabel yang berkaitan dengan nilai akademis (G1, G2, G3), waktu belajar, dan faktor sosial. -->
+
+```{r}
+print(names(student_mat_data))  # Menampilkan nama kolom dataset mat
 ```
 
 ```{r}
-# 6. Display Cleared Data
-head(student_data, 5)
+print(names(student_por_data))  # Menampilkan nama kolom dataset por
 ```
 
-## 4. Exploration Data Akhir
+#### Analisis Missing Values:
+Menghitung dan menampilkan jumlah nilai yang hilang dalam setiap kolom.
+<!-- Evaluasi apakah ada nilai yang hilang dalam dataset dan bagaimana cara menanganinya. -->
+
+```{r}
+print(colSums(is.na(student_mat_data)))  # Menampilkan jumlah missing values per kolom dataset mat
+```
+
+```{r}
+print(colSums(is.na(student_por_data)))  # Menampilkan jumlah missing values per kolom dataset por
+```
+
+## 2. Exploratory Data Analysis Awal
+
+### Tujuan:
+
+Melihat data secara umum dan mendapatkan insight awal.
+
+### Langkah-langkah:
+
+#### Statistik Deskriptif: 
+
+Gunakan fungsi summary() untuk melihat ringkasan statistik dari variabel numerik.
 
 ```{r}
 
 ```
 
+#### Visualisasi Awal: 
+
+##### Histogram: 
+
+Untuk melihat distribusi nilai G1, G2, dan G3.
+
+```{r}
+
+```
+
+##### Boxplot:
+
+Untuk menganalisis outlier pada nilai akademis berdasarkan variabel lain seperti jenis kelamin atau waktu belajar.
+
+```{r}
+
+```
+
+## 3. Visualisasi Data
+
+### Tujuan: 
+
+Membuat visualisasi yang menarik untuk menceritakan data.
+
+### Langkah-langkah:
+
+#### Hubungan antar Variabel:
+
+##### Scatter Plot:
+
+Untuk menggambarkan hubungan antara jumlah waktu belajar dan nilai akhir (G3).
+
+```{r}
+
+```
+
+##### Bar Plot:
+
+Untuk menganalisis perbandingan nilai berdasarkan jenis kelamin atau status sosial.
+
+```{r}
+
+```
+
+#### Heatmap/Korelasi:
+
+Untuk melihat hubungan antar variabel numerik dan mengidentifikasi pola.
+
+```{r}
+
+```
+
+#### Pie Chart:
+
+Untuk proporsi kategori dalam variabel seperti jenis kelamin atau status dukungan keluarga.
+
+```{r}
+
+```
+
+
+## 4. Analisis Data
+
+### Tujuan:
+
+Memberikan analisis dan interpretasi dari visualisasi yang telah dibuat.
+
+### Langkah-langkah:
+
+#### Analisis Naratif:
+
+Tulis analisis untuk setiap visualisasi. Fokus pada pertanyaan seperti:
+
+-   Apa yang terlihat dalam visualisasi?
+
+-   Apa saja pola atau tren yang teramati?
+
+-   Apa implikasi dari hasil tersebut?
+
+#### Insight Kritis:
+
+Berikan poin pandangan yang menunjukkan bagaimana hasil analisis dapat digunakan untuk mengambil keputusan atau memberikan rekomendasi.
+
+## 5. Kesimpulan dan Rekomendasi
+
+### Tujuan:
+
+Mengakhiri analisis dengan ringkasan yang jelas.
+
+### Langkah-langkah:
+
+#### Kesimpulan Utama:
+
+Sampaikan temuan utama dari analisis Anda.
+
+#### Rekomendasi:
+
+Berikan saran berdasarkan hasil analisis, misalnya, bagaimana meningkatkan performa siswa atau intervensi yang perlu dilakukan.
