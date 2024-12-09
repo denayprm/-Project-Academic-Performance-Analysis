@@ -14,11 +14,19 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 0. Import Library dan Import Dataset
 
 ### Import Library
-Memuat paket yang diperlukan untuk membaca data dan manipulasi.
+Memuat paket yang diperlukan
 
 ```{r}
+if (!requireNamespace("readr")) install.packages("readr")
+if (!requireNamespace("dplyr")) install.packages("dplyr")
+if (!requireNamespace("ggplot2")) install.packages("ggplot2")
+if (!requireNamespace("gridExtra")) install.packages("gridExtra")
+
 library(readr)  # Untuk membaca data dengan cepat dari berbagai format seperti CSV
 library(dplyr)  # Untuk manipulasi data dengan sintaks yang bersih dan intuitif
+
+library(ggplot2)  # Paket grafis yang powerful untuk membuat visualisasi data
+library(gridExtra)  # Untuk menampilkan beberapa plot dalam satu tampilan
 ```
 
 ### Import Dataset
@@ -39,13 +47,13 @@ student_por_data <- read_delim("resources/dataset/student-por.csv",
 
 ### Tujuan:
 
-Memahami konteks dan karakteristik dataset.
+<!-- Memahami konteks dan karakteristik dataset. -->
 
 ### Langkah-langkah: 
 
 #### Deskripsi Dataset: 
 
-Menampilkan dimensi dataset dan preview beberapa baris pertama untuk memberikan gambaran awal.
+<!-- Menampilkan dimensi dataset dan preview beberapa baris pertama untuk memberikan gambaran awal. -->
 
 ##### Menghitung jumlah baris dan kolom
 
@@ -106,34 +114,81 @@ print(colSums(is.na(student_por_data)))  # Menampilkan jumlah missing values per
 
 ### Tujuan:
 
-Melihat data secara umum dan mendapatkan insight awal.
+<!-- Melihat data secara umum dan mendapatkan insight awal. -->
 
 ### Langkah-langkah:
 
 #### Statistik Deskriptif: 
 
-Gunakan fungsi summary() untuk melihat ringkasan statistik dari variabel numerik.
+<!-- Gunakan fungsi summary() untuk melihat ringkasan statistik dari variabel numerik. -->
 
 ```{r}
+print(summary(student_mat_data))  # Menampilkan ringkasan statistik dataset mat
+```
 
+```{r}
+print(summary(student_por_data))  # Menampilkan ringkasan statistik datset por
 ```
 
 #### Visualisasi Awal: 
 
-##### Histogram: 
-
-Untuk melihat distribusi nilai G1, G2, dan G3.
+##### Histogram:
+Histogram untuk Nilai G1, G2, G3
+<!-- Untuk melihat distribusi nilai G1, G2, dan G3. -->
 
 ```{r}
+# G1
+g1_hist <- ggplot(student_mat_data, aes(x = G1)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribusi Nilai G1", x = "Nilai G1", y = "Frekuensi")
 
+# G2
+g2_hist <- ggplot(student_mat_data, aes(x = G2)) +
+  geom_histogram(binwidth = 1, fill = "green", color = "black", alpha = 0.7) +
+  labs(title = "Distribusi Nilai G2", x = "Nilai G2", y = "Frekuensi")
+
+# G3
+g3_hist <- ggplot(student_mat_data, aes(x = G3)) +
+  geom_histogram(binwidth = 1, fill = "red", color = "black", alpha = 0.7) +
+  labs(title = "Distribusi Nilai G3", x = "Nilai G3", y = "Frekuensi")
+```
+
+```{r}
+# Tampilkan histogram dalam satu tampilan
+grid.arrange(g1_hist, g2_hist, g3_hist, ncol = 3)
 ```
 
 ##### Boxplot:
 
-Untuk menganalisis outlier pada nilai akademis berdasarkan variabel lain seperti jenis kelamin atau waktu belajar.
+<!-- Untuk menganalisis outlier pada nilai akademis berdasarkan variabel lain seperti jenis kelamin atau waktu belajar. -->
 
 ```{r}
+# Boxplot untuk Nilai G3 Berdasarkan Jenis Kelamin
+boxplot_gender <- ggplot(student_mat_data, aes(x = sex, y = G3, fill = factor(sex))) +
+  geom_boxplot() +
+  labs(title = "Boxplot Nilai G3 Berdasarkan Jenis Kelamin", 
+       x = "Jenis Kelamin", y = "Nilai G3") +
+  scale_x_discrete(labels = c("0" = "Female", "1" = "Male")) +
+  theme(legend.position = "none")
 
+print(boxplot_gender)
+```
+
+```{r}
+# Boxplot untuk Nilai G3 Berdasarkan Waktu Belajar
+boxplot_studytime <- ggplot(student_mat_data, aes(x = factor(studytime), y = G3, fill = factor(studytime))) +
+  geom_boxplot() +
+  labs(title = "Boxplot Nilai G3 Berdasarkan Waktu Belajar", 
+       x = "Waktu Belajar", y = "Nilai G3") +
+  theme(legend.position = "none")
+
+print(boxplot_studytime)
+```
+
+```{r}
+# Analisis Outlier menggunakan Boxplot
+outliers <- boxplot(student_mat_data$G3, plot = FALSE)$out
+print(outliers)  # Menampilkan nilai outlier
 ```
 
 ## 3. Visualisasi Data
