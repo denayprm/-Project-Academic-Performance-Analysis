@@ -67,7 +67,7 @@ Gambaran umum tentang dataset, termasuk dimensi, tipe data, dan potensi isu yang
 #### 1.3.1 Deskripsi Dataset:
 
 | No | Nama Variabel | Type | Deskripsi |
-|----|----|----|----|
+|------------|------------|------------|------------------------------------|
 | 1 | school | Categorical | 'student's school (GP' - Gabriel Pereira atau 'MS' - Mousinho da Silveira) |
 | 2 | sex | Binary | student's sex (binary: 'F' - female or 'M' - male) |
 | 3 | age | Integer | student's age (numeric: from 15 to 22) |
@@ -347,6 +347,8 @@ print(heatmap_plot)
 ```
 
 **Penjelasan:** Heatmap ini menunjukkan korelasi antara variabel-variabel numerik dalam dataset. Misalnya, terdapat korelasi positif yang kuat antara nilai G1, G2, dan G3, yang menunjukkan bahwa siswa yang mendapatkan nilai baik di awal cenderung mempertahankan performa mereka.
+
+![nilai 1.0 menunjukan korelasi positif yang kuat, nilai -1.0 menunjukan korelasi negatif yang kuat, dan jika nilai mendekati nol artinya tidak ada korelasi yang jelas. jadi semakin nilainya mendekati nilai positif maka tren nya positif begitupun sebaliknya.](images/heatmap math-por.png){width="44"}
 
 #### 3.3.3 Pie Chart:
 
