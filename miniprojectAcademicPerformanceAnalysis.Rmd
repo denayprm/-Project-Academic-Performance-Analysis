@@ -9,8 +9,6 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# **Tahapan Exploratory Data Analysis (EDA)**
-
 ## 0. Import Library dan Import Dataset
 
 ### Import Library
@@ -48,11 +46,7 @@ student_por_data <- read_delim("resources/dataset/student-por.csv",
 
 ## 1. Data Understanding
 
-### Tujuan:
-
 <!-- Memahami konteks dan karakteristik dataset. -->
-
-### Langkah-langkah: 
 
 #### Deskripsi Dataset: 
 
@@ -115,11 +109,7 @@ print(colSums(is.na(student_por_data)))  # Menampilkan jumlah missing values per
 
 ## 2. Exploratory Data Analysis Awal
 
-### Tujuan:
-
 <!-- Melihat data secara umum dan mendapatkan insight awal. -->
-
-### Langkah-langkah:
 
 #### Statistik Deskriptif: 
 
@@ -160,6 +150,7 @@ g3_hist <- ggplot(student_mat_data, aes(x = G3)) +
 # Tampilkan histogram dalam satu tampilan
 grid.arrange(g1_hist, g2_hist, g3_hist, ncol = 3)
 ```
+Histogram menunjukkan distribusi nilai G1, G2, dan G3. Dari histogram ini, kita dapat melihat bahwa sebagian besar siswa memiliki nilai di kisaran menengah, dengan beberapa siswa yang memiliki nilai sangat tinggi atau sangat rendah.
 
 ##### Boxplot:
 
@@ -176,6 +167,7 @@ boxplot_gender <- ggplot(student_mat_data, aes(x = sex, y = G3, fill = factor(se
 
 print(boxplot_gender)
 ```
+Boxplot ini menunjukkan bahwa tidak ada perbedaan signifikan antara nilai G3 siswa laki-laki dan perempuan. Kedua kelompok memiliki distribusi nilai yang serupa.
 
 ```{r}
 # Boxplot untuk Nilai G3 Berdasarkan Waktu Belajar
@@ -187,6 +179,7 @@ boxplot_studytime <- ggplot(student_mat_data, aes(x = factor(studytime), y = G3,
 
 print(boxplot_studytime)
 ```
+Boxplot ini menunjukkan bahwa siswa yang menghabiskan lebih banyak waktu untuk belajar cenderung memiliki nilai G3 yang lebih tinggi. Ini menunjukkan adanya hubungan positif antara waktu belajar dan nilai akhir.
 
 ```{r}
 # Analisis Outlier menggunakan Boxplot
@@ -196,11 +189,7 @@ print(outliers)  # Menampilkan nilai outlier
 
 ## 3. Visualisasi Data
 
-### Tujuan: 
-
 Membuat visualisasi yang menarik untuk menceritakan data.
-
-### Langkah-langkah:
 
 #### Hubungan antar Variabel:
 
@@ -221,6 +210,7 @@ scatter_studytime_g3 <- ggplot(student_mat_data, aes(x = studytime, y = G3, colo
 
 print(scatter_studytime_g3)
 ```
+Scatter plot ini memperkuat temuan dari boxplot sebelumnya, menunjukkan bahwa ada tren positif antara waktu belajar dan nilai G3. Siswa yang menghabiskan lebih banyak waktu untuk belajar cenderung mendapatkan nilai yang lebih baik.
 
 ##### Bar Plot:
 
@@ -243,6 +233,7 @@ barplot_gender <- ggplot(avg_g3_gender, aes(x = factor(sex), y = mean_G3, fill =
 
 print(barplot_gender)
 ```
+Bar plot ini menunjukkan bahwa rata-rata nilai G3 untuk siswa laki-laki dan perempuan hampir sama, mengindikasikan bahwa jenis kelamin tidak memiliki pengaruh signifikan terhadap nilai akhir.
 
 #### Heatmap/Korelasi:
 
@@ -266,6 +257,7 @@ heatmap_plot <- ggplot(correlation_melted, aes(Var1, Var2, fill = value)) +
 
 print(heatmap_plot)
 ```
+Heatmap ini menunjukkan korelasi antara variabel-variabel numerik dalam dataset. Misalnya, terdapat korelasi positif yang kuat antara nilai G1, G2, dan G3, yang menunjukkan bahwa siswa yang mendapatkan nilai baik di awal cenderung mempertahankan performa mereka.
 
 #### Pie Chart:
 
@@ -287,42 +279,21 @@ pie_chart <- ggplot(family_support, aes(x = "", y = count, fill = factor(famsup)
 
 print(pie_chart)
 ```
+Pie chart ini menunjukkan bahwa sebagian besar siswa menerima dukungan keluarga. Dukungan keluarga dapat menjadi faktor penting dalam keberhasilan akademik siswa.
 
 
-## 4. Analisis Data
+## 4 . Kesimpulan dan Rekomendasi
 
-### Tujuan:
+### Kesimpulan Utama:
 
-Memberikan analisis dan interpretasi dari visualisasi yang telah dibuat.
-
-### Langkah-langkah:
-
-#### Analisis Naratif:
-
-Tulis analisis untuk setiap visualisasi. Fokus pada pertanyaan seperti:
-
--   Apa yang terlihat dalam visualisasi?
-
--   Apa saja pola atau tren yang teramati?
-
--   Apa implikasi dari hasil tersebut?
-
-#### Insight Kritis:
-
-Berikan poin pandangan yang menunjukkan bagaimana hasil analisis dapat digunakan untuk mengambil keputusan atau memberikan rekomendasi.
-
-## 5. Kesimpulan dan Rekomendasi
-
-### Tujuan:
-
-Mengakhiri analisis dengan ringkasan yang jelas.
-
-### Langkah-langkah:
-
-#### Kesimpulan Utama:
-
-Sampaikan temuan utama dari analisis Anda.
+- Gender: Tidak ada perbedaan signifikan dalam nilai berdasarkan gender.
+- Waktu Belajar: Waktu belajar yang lebih banyak berkorelasi dengan nilai yang lebih tinggi.
+- Dukungan Keluarga: Sebagian besar siswa menerima dukungan keluarga, yang penting untuk keberhasilan akademik.
+- Korelasi Nilai: Nilai awal yang baik berkorelasi dengan nilai akhir yang baik.
 
 #### Rekomendasi:
 
-Berikan saran berdasarkan hasil analisis, misalnya, bagaimana meningkatkan performa siswa atau intervensi yang perlu dilakukan.
+- Intervensi Pendidikan: Fokus pada siswa yang memiliki nilai awal rendah untuk memberikan dukungan tambahan.
+- Dukungan Keluarga: Mendorong partisipasi aktif orang tua dalam pendidikan anak mereka.
+- Alokasi Waktu Belajar: Membantu siswa mengembangkan strategi belajar yang efektif dan manajemen waktu.
+- Keadilan Gender: Terus memantau dan memastikan bahwa tidak ada bias gender dalam evaluasi dan pendidikan.
