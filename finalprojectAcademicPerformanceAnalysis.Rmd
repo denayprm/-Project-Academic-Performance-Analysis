@@ -386,3 +386,48 @@ Pie chart ini menunjukkan bahwa sebagian besar siswa menerima dukungan keluarga.
 -   Dukungan Keluarga: Mendorong partisipasi aktif orang tua dalam pendidikan anak mereka.
 -   Alokasi Waktu Belajar: Membantu siswa mengembangkan strategi belajar yang efektif dan manajemen waktu.
 -   Keadilan Gender: Terus memantau dan memastikan bahwa tidak ada bias gender dalam evaluasi dan pendidikan.
+
+
+# **Tahapan Data Analysis**
+
+## 0. Import Library
+
+```{r}
+
+```
+
+## 1. Cleaning Data
+
+```{r}
+
+```
+
+## 2. Pre-Processing
+
+```{r}
+
+```
+
+## 3. Modeling
+
+```{r}
+
+```
+
+### 3.1 Regression
+
+```{r}
+
+```
+
+### 3.2 Classification
+
+```{r}
+
+```
+
+### 3.3 Clustering
+
+```{r}
+
+```
