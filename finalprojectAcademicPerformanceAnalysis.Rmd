@@ -393,7 +393,27 @@ Pie chart ini menunjukkan bahwa sebagian besar siswa menerima dukungan keluarga.
 ## 0. Import Library
 
 ```{r}
+if (!requireNamespace("tidyverse")) install.packages("tidyverse")
+if (!requireNamespace("caret")) install.packages("caret")
+if (!requireNamespace("randomForest")) install.packages("randomForest")
+if (!requireNamespace("rpart")) install.packages("rpart")
+if (!requireNamespace("cluster")) install.packages("cluster")
+if (!requireNamespace("factoextra")) install.packages("factoextra")
+if (!requireNamespace("corrplot")) install.packages("corrplot")
+if (!requireNamespace("stats")) install.packages("stats")
+if (!requireNamespace("NbClust")) install.packages("NbClust")
+if (!requireNamespace("viridis")) install.packages("viridis")
 
+library(tidyverse)  # Sekumpulan paket terintegrasi untuk analisis data yang mendukung tidy data
+library(caret)  # Untuk membangun model prediktif, termasuk pemilihan fitur dan evaluasi model
+library(randomForest)  # Untuk membangun model Random Forest untuk klasifikasi dan regresi
+library(rpart)  # Untuk membuat model pohon keputusan (decision trees)
+library(cluster)  # Menyediakan fungsi untuk analisis clustering seperti k-means dan agglomerative
+library(factoextra)  # Memudahkan visualisasi hasil analisis multivarian seperti clustering dan PCA
+library(corrplot)  # Memfasilitasi visualisasi matriks korelasi
+library(stats)  # Paket bawaan R untuk analisis statistik dasar
+library(NbClust)  # Memfasilitasi penentuan jumlah cluster optimal dengan berbagai metode
+library(viridis)  # Menawarkan palet warna yang baik untuk visualisasi yang dapat diakses
 ```
 
 ## 1. Cleaning Data
