@@ -415,12 +415,51 @@ library(stats)  # Paket bawaan R untuk analisis statistik dasar
 library(NbClust)  # Memfasilitasi penentuan jumlah cluster optimal dengan berbagai metode
 library(viridis)  # Menawarkan palet warna yang baik untuk visualisasi yang dapat diakses
 ```
+**Penjelasan:**
 
 ## 1. Cleaning Data
 
 ```{r}
-
+# 1. Merge Datasets
+student_mat_data$course <- "Math"
+student_por_data$course <- "Portuguese"
+student_data <- bind_rows(student_mat_data, student_por_data)
 ```
+**Penjelasan:**
+
+```{r}
+# 2. Select Columns
+selected_columns <- c("sex", "age", "address", "studytime", "failures", 
+                      "schoolsup", "famsup", "freetime", "goout", "romantic", 
+                      "G1", "G2", "G3")
+student_data <- student_data[, selected_columns]
+```
+**Penjelasan:**
+
+```{r}
+# 3. Pre-Process Categorical Data
+student_data <- student_data %>%
+  mutate(
+    sex = ifelse(sex == "F", 0, 1),
+    address = ifelse(address == "U", 0, 1),
+    schoolsup = ifelse(schoolsup == "no", 0, 1),
+    famsup = ifelse(famsup == "no", 0, 1),
+    romantic = ifelse(romantic == "no", 0, 1)
+  )
+```
+**Penjelasan:**
+
+```{r}
+# 4. Handle Empty Values
+student_data <- na.omit(student_data)
+```
+**Penjelasan:**
+
+```{r}
+# 6. Display Cleared Data
+head(student_data, 5)
+```
+**Penjelasan:**
 
 ## 2. Pre-Processing
 
