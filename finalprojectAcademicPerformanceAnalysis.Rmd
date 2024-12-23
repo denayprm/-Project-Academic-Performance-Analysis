@@ -67,7 +67,7 @@ Gambaran umum tentang dataset, termasuk dimensi, tipe data, dan potensi isu yang
 #### 1.3.1 Deskripsi Dataset:
 
 | No | Nama Variabel | Type | Deskripsi |
-|----|----|----|----|
+|------|------------------|------------------|------------------------------|
 | 1 | school | Categorical | 'student's school (GP' - Gabriel Pereira atau 'MS' - Mousinho da Silveira) |
 | 2 | sex | Binary | student's sex (binary: 'F' - female or 'M' - male) |
 | 3 | age | Integer | student's age (numeric: from 15 to 22) |
@@ -387,7 +387,6 @@ Pie chart ini menunjukkan bahwa sebagian besar siswa menerima dukungan keluarga.
 -   Alokasi Waktu Belajar: Membantu siswa mengembangkan strategi belajar yang efektif dan manajemen waktu.
 -   Keadilan Gender: Terus memantau dan memastikan bahwa tidak ada bias gender dalam evaluasi dan pendidikan.
 
-
 # **Tahapan Data Analysis**
 
 ## 0. Import Library
@@ -415,6 +414,7 @@ library(stats)  # Paket bawaan R untuk analisis statistik dasar
 library(NbClust)  # Memfasilitasi penentuan jumlah cluster optimal dengan berbagai metode
 library(viridis)  # Menawarkan palet warna yang baik untuk visualisasi yang dapat diakses
 ```
+
 **Penjelasan:**
 
 ## 1. Cleaning Data
@@ -425,6 +425,7 @@ student_mat_data$course <- "Math"
 student_por_data$course <- "Portuguese"
 student_data <- bind_rows(student_mat_data, student_por_data)
 ```
+
 **Penjelasan:**
 
 ```{r}
@@ -434,6 +435,7 @@ selected_columns <- c("sex", "age", "address", "studytime", "failures",
                       "G1", "G2", "G3")
 student_data <- student_data[, selected_columns]
 ```
+
 **Penjelasan:**
 
 ```{r}
@@ -447,18 +449,21 @@ student_data <- student_data %>%
     romantic = ifelse(romantic == "no", 0, 1)
   )
 ```
+
 **Penjelasan:**
 
 ```{r}
 # 4. Handle Empty Values
 student_data <- na.omit(student_data)
 ```
+
 **Penjelasan:**
 
 ```{r}
 # 6. Display Cleared Data
 head(student_data, 5)
 ```
+
 **Penjelasan:**
 
 ## 2. Pre-Processing
@@ -482,12 +487,14 @@ student_prepare_data <- function(student_data) {
   list(X = X, y_reg = y_reg, y_class = y_class)
 }
 ```
+
 **Penjelasan:**
 
 ```{r}
 # 2. Analysis execution
 student_data_processed <- student_prepare_data(student_data)
 ```
+
 **Penjelasan:**
 
 ## 3. Modeling
@@ -542,6 +549,8 @@ student_perform_regression <- function(X, y_reg) {
 }
 ```
 
+**Penjelasan:** 
+
 ```{r}
 # 2. Regression
 student_regression_results <- student_perform_regression(
@@ -550,17 +559,22 @@ student_regression_results <- student_perform_regression(
 )
 ```
 
+**Penjelasan:** 
+
 ```{r}
 # 3. Display results
-cat("Regresi - Pentingnya Fitur:")
 print(student_regression_results$feature_importance)
 ```
+
+**Penjelasan:** 
 
 ```{r}
 print("Regresi - Metrik:")
 print(paste("MAE:", student_regression_results$mae))
 print(paste("RMSE:", student_regression_results$rmse))
 ```
+
+**Penjelasan:** 
 
 ### 3.2 Classification
 
@@ -605,6 +619,8 @@ student_perform_classification <- function(X, y_class) {
 }
 ```
 
+**Penjelasan:** 
+
 ```{r}
 # 2. Classification
 student_classification_results <- student_perform_classification(
@@ -613,11 +629,15 @@ student_classification_results <- student_perform_classification(
 )
 ```
 
+**Penjelasan:** 
+
 ```{r}
 # 3. Display result
 print("Klasifikasi - Confusion Matrix:")
 print(student_classification_results$confusion_matrix)
 ```
+
+**Penjelasan:** 
 
 ### 3.3 Clustering
 
@@ -745,7 +765,11 @@ student_perform_clustering_analysis <- function(student_data) {
 }
 ```
 
+**Penjelasan:** 
+
 ```{r}
 # Run clustering analysis
 student_clustering_results <- student_perform_clustering_analysis(student_data)
 ```
+
+**Penjelasan:** 
