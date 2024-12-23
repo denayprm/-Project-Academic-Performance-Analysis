@@ -464,8 +464,31 @@ head(student_data, 5)
 ## 2. Pre-Processing
 
 ```{r}
-
+# 1. Functions for data preparation
+student_prepare_data <- function(student_data) {
+  # Split features for regression and classification
+  X <- student_data %>%
+    select(G1, G2, studytime, failures, freetime, goout)
+  
+  # Target for regression
+  y_reg <- student_data$G3
+  
+  # Target for classification with categorization
+  y_class <- cut(student_data$G3,
+                 breaks = c(0, 10, 15, 20),
+                 labels = c('low', 'medium', 'high'))
+  
+  # Return list with all variables
+  list(X = X, y_reg = y_reg, y_class = y_class)
+}
 ```
+**Penjelasan:**
+
+```{r}
+# 2. Analysis execution
+student_data_processed <- student_prepare_data(student_data)
+```
+**Penjelasan:**
 
 ## 3. Modeling
 
@@ -476,17 +499,253 @@ head(student_data, 5)
 ### 3.1 Regression
 
 ```{r}
+# 1. Function for regression modeling
+student_perform_regression <- function(X, y_reg) {
+  # Split data
+  set.seed(125)
+  split_index <- createDataPartition(y_reg, p = 0.8, list = FALSE)
+  
+  X_train <- X[split_index, ]
+  X_test <- X[-split_index, ]
+  y_train <- y_reg[split_index]
+  y_test <- y_reg[-split_index]
+  
+  # Random Forest Model
+  rf_model <- randomForest(
+    x = X_train,
+    y = y_train,
+    ntree = 100,
+    random_state = 125
+  )
+  
+  # Predict
+  y_pred <- predict(rf_model, X_test)
+  
+  # Evaluation
+  mae <- mean(abs(y_test - y_pred))
+  rmse <- sqrt(mean((y_test - y_pred)^2))
 
+  # Fitur importance
+  feature_importance <- data.frame(
+    Feature = colnames(X),
+    Importance = importance(rf_model)
+  )
+
+  # Return result
+  list(
+    model = rf_model,
+    predictions = y_pred,
+    mae = mae,
+    rmse = rmse,
+    feature_importance = feature_importance
+  )
+}
+```
+
+```{r}
+# 2. Regression
+student_regression_results <- student_perform_regression(
+  student_data_processed$X,
+  student_data_processed$y_reg
+)
+```
+
+```{r}
+# 3. Display results
+cat("Regresi - Pentingnya Fitur:")
+print(student_regression_results$feature_importance)
+```
+
+```{r}
+print("Regresi - Metrik:")
+print(paste("MAE:", student_regression_results$mae))
+print(paste("RMSE:", student_regression_results$rmse))
 ```
 
 ### 3.2 Classification
 
 ```{r}
+# 1. Function for classification modeling
+student_perform_classification <- function(X, y_class) {
+  # Split data
+  set.seed(125)
+  split_index <- createDataPartition(y_class, p = 0.8, list = FALSE)
+  
+  X_train <- X[split_index, ]
+  X_test <- X[-split_index, ]
+  y_train <- y_class[split_index]
+  y_test <- y_class[-split_index]
+  
+  # Handle Missing values
+  X_train <- X_train %>%
+    mutate(across(everything(), ~replace_na(., mean(., na.rm = TRUE))))
+  
+  X_test <- X_test %>%
+    mutate(across(everything(), ~replace_na(., mean(., na.rm = TRUE))))
+  
+  # Decision Tree Model
+  dt_model <- rpart(
+    formula = y_train ~ .,
+    data = data.frame(X_train, y_train),
+    method = "class"
+  )  
+  
+  # Predict
+  y_pred <- predict(dt_model, X_test, type = "class")
+  
+  # Evaluation
+  conf_matrix <- confusionMatrix(y_pred, y_test)
+  
+  # Return result
+  list(
+    model = dt_model,
+    predictions = y_pred,
+    confusion_matrix = conf_matrix
+  )
+}
+```
 
+```{r}
+# 2. Classification
+student_classification_results <- student_perform_classification(
+  student_data_processed$X,
+  student_data_processed$y_class
+)
+```
+
+```{r}
+# 3. Display result
+print("Klasifikasi - Confusion Matrix:")
+print(student_classification_results$confusion_matrix)
 ```
 
 ### 3.3 Clustering
 
 ```{r}
+student_perform_clustering_analysis <- function(student_data) {
+  # Prepare data for clustering
+  student_clustering_data <- student_data %>%
+    select(studytime, freetime, goout) %>%
+    scale()
+  
+  # 1. Elbow Method with Improved Visualization
+  student_elbow_method <- function(student_data) {
+    wss <- sapply(1:10, function(k) {
+      kmeans(student_data, centers = k, nstart = 25)$tot.withinss
+    })
+    
+    optimal_k <- which(diff(diff(wss)) == min(diff(diff(wss)))) + 1  # Optimal k
+    
+    student_plt_elbow <- ggplot(data.frame(k = 1:10, wss = wss), 
+                                aes(x = k, y = wss)) +
+      geom_line(color = "steelblue", size = 1.2) +
+      geom_point(color = "darkorange", size = 3) +
+      geom_vline(xintercept = optimal_k, linetype = "dashed", color = "red") +
+      labs(title = "Elbow Method for Optimal Clusters",
+           x = "Number of Clusters (k)",
+           y = "Total Within-Cluster Sum of Squares") +
+      theme_minimal(base_size = 14)
+    
+    print(student_plt_elbow)
+  }
+  
+  student_elbow_method(student_clustering_data)
+  
+  # 2. Perform K-Means clustering
+  student_perform_kmeans <- function(student_data, k = 3) {
+    set.seed(125)
+    student_km_result <- kmeans(student_data, centers = k, nstart = 25)
+    student_sil <- silhouette(student_km_result$cluster, dist(student_data))
+    
+    student_plt_sil <- fviz_silhouette(student_sil, palette = "viridis") +
+      labs(title = "Silhouette Plot") +
+      theme_minimal(base_size = 14)
+    
+    print(student_plt_sil)
+    
+    return(list(
+      student_kmeans = student_km_result,
+      silhouette = student_sil
+    ))
+  }
+  
+  student_km_results <- student_perform_kmeans(student_clustering_data)
+  
+  # 3. Visualize PCA with Improved Aesthetics
+  student_pca_visualization <- function(student_data, clusters) {
+    student_pca_result <- prcomp(student_data)
+    student_pca_data <- as.data.frame(student_pca_result$x[, 1:2])
+    student_pca_data$Cluster <- as.factor(clusters)
+    
+    student_plt_pca <- ggplot(student_pca_data, aes(x = PC1, y = PC2, color = Cluster)) +
+      geom_point(size = 3, alpha = 0.8) +
+      scale_color_viridis_d() +
+      geom_text(aes(label = Cluster), vjust = 2, size = 5, fontface = "bold", color = "black") +
+      labs(title = "Clustering Visualization (PCA)",
+           x = "Principal Component 1",
+           y = "Principal Component 2") +
+      theme_minimal(base_size = 14) +
+      theme(legend.position = "top")
+    
+    print(student_plt_pca)
+  }
+  
+  student_pca_visualization(student_clustering_data, student_km_results$student_kmeans$cluster)
+  
+  # 4. Correlation Matrix with Gradients
+  student_correlation_matrix <- cor(student_data %>% select(studytime, freetime, goout, G1, G2, G3))
+  
+  corrplot(
+    student_correlation_matrix, 
+    method = "color", 
+    col = viridis(10), 
+    type = "full",
+    addCoef.col = "white",
+    number.cex = 0.8,
+    title = "Correlation Matrix",
+    mar = c(0, 0, 2, 0)
+  )
+  
+  # 5. Distribution of Performance Categories
+  y_class <- cut(student_data$G2, 
+                 breaks = c(0, 10, 15, 20), 
+                 labels = c('low', 'medium', 'high'),
+                 right = FALSE
+                 )
+  
+  student_plt_dist <- ggplot(data.frame(y_class), aes(x = y_class)) +
+    geom_bar(aes(fill = y_class), color = "black", alpha = 0.8) +
+    scale_fill_viridis_d() +
+    geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
+    labs(title = "Distribution of Performance Categories",
+         x = "Performance Category",
+         y = "Number of Students") +
+    theme_minimal(base_size = 14) +
+    theme(legend.position = "none")
+  
+  print(student_plt_dist)
+  
+  # 6. Cluster Characteristics
+  student_cluster_analysis <- student_data %>%
+    mutate(Cluster = student_km_results$student_kmeans$cluster) %>%
+    group_by(Cluster) %>%
+    summarise(
+      mean_studytime = mean(studytime),
+      mean_freetime = mean(freetime),
+      mean_goout = mean(goout)
+    )
+  
+  print("Cluster Characteristics:")
+  print(student_cluster_analysis)
+  
+  return(list(
+    student_kmeans_result = student_km_results,
+    student_cluster_characteristics = student_cluster_analysis
+  ))
+}
+```
 
+```{r}
+# Run clustering analysis
+student_clustering_results <- student_perform_clustering_analysis(student_data)
 ```
