@@ -561,7 +561,7 @@ student_regression_results <- student_perform_regression(
 )
 ```
 
-**Penjelasan:** Model dibangun dan dievaluasi menggunakan data yang telah dipersiapkan sebelumnya. Dengan menyimpan hasil dalam student_regression_results.
+**Penjelasan:** Model dibangun dan dievaluasi menggunakan data yang telah dipersiapkan sebelumnya (student_perform_regression). Dengan menyimpan hasil dalam student_regression_results.
 
 ```{r}
 # 3. Display results
@@ -621,7 +621,7 @@ student_perform_classification <- function(X, y_class) {
 }
 ```
 
-**Penjelasan:** 
+**Penjelasan:** Menyajikan fungsi yang komprehensif untuk membangun dan mengevaluasi model klasifikasi menggunakan pohon keputusan. Dengan membagi data, menangani nilai hilang, melatih model, melakukan prediksi, dan mengevaluasi kinerja, fungsi ini menjadi bagian penting dalam analisis klasifikasi untuk memahami kinerja akademik siswa dalam kategori tertentu (misalnya, kinerja rendah, sedang, atau tinggi).
 
 ```{r}
 # 2. Classification
@@ -631,7 +631,7 @@ student_classification_results <- student_perform_classification(
 )
 ```
 
-**Penjelasan:** 
+**Penjelasan:** Model dibangun dan dievaluasi menggunakan data yang telah dipersiapkan sebelumnya (student_perform_classification). Dengan menyimpan hasil dalam student_classification_results.
 
 ```{r}
 # 3. Display result
@@ -639,7 +639,7 @@ print("Klasifikasi - Confusion Matrix:")
 print(student_classification_results$confusion_matrix)
 ```
 
-**Penjelasan:** 
+**Penjelasan:** Menyediakan hasil evaluasi yang komprehensif untuk model klasifikasi yang dibangun. Dengan menampilkan confusion matrix dan statistik terkait, pengguna dapat dengan jelas memahami kinerja model dalam mengklasifikasikan siswa ke dalam kategori kinerja yang berbeda (Hasil=Misalnya, angka 64 di posisi (low, low) menunjukkan bahwa 64 siswa yang sebenarnya berada dalam kategori low berhasil diprediksi dengan benar sebagai low).
 
 ### 3.3 Clustering
 
