@@ -488,19 +488,21 @@ student_prepare_data <- function(student_data) {
 }
 ```
 
-**Penjelasan:**
+**Penjelasan:** Data siswa dipersiapkan dengan cara yang sistematis untuk memfasilitasi analisis lebih lanjut. Dengan memilih fitur yang relevan dan mendefinisikan target untuk model (regresi dan klasifikasi), fungsi ini menetapkan dasar yang kuat untuk langkah-langkah pemodelan yang akan datang.
 
 ```{r}
 # 2. Analysis execution
 student_data_processed <- student_prepare_data(student_data)
 ```
 
-**Penjelasan:**
+**Penjelasan:**  Mengimplementasikan langkah persiapan data yang telah didefinisikan sebelumnya. Dengan memproses data siswa dan menyimpannya dalam variabel student_data_processed, analisis selanjutnya dapat dilakukan dengan lebih terstruktur dan efisien.
 
 ## 3. Modeling
 
 ```{r}
-
+# Regresi: Metode ini digunakan untuk memprediksi nilai numerik berdasarkan variabel independen
+# Klasifikasi: Ini adalah teknik untuk mengelompokkan data ke dalam kategori yang telah ditentukan. 
+# Clustering: Teknik ini digunakan untuk mengelompokkan data ke dalam kelompok berdasarkan kesamaan
 ```
 
 ### 3.1 Regression
@@ -549,7 +551,7 @@ student_perform_regression <- function(X, y_reg) {
 }
 ```
 
-**Penjelasan:** 
+**Penjelasan:** Membuat fungsi yang komprehensif untuk membangun dan mengevaluasi model regresi menggunakan Random Forest. Dengan membagi data, melatih model, melakukan prediksi, dan mengevaluasi kinerja, fungsi ini membentuk bagian penting dari proses analisis regresi dalam konteks kinerja akademik siswa. Hasil yang diperoleh akan memberikan wawasan yang berguna untuk memahami faktor-faktor yang mempengaruhi nilai akademis.
 
 ```{r}
 # 2. Regression
@@ -559,14 +561,14 @@ student_regression_results <- student_perform_regression(
 )
 ```
 
-**Penjelasan:** 
+**Penjelasan:** Model dibangun dan dievaluasi menggunakan data yang telah dipersiapkan sebelumnya. Dengan menyimpan hasil dalam student_regression_results.
 
 ```{r}
 # 3. Display results
 print(student_regression_results$feature_importance)
 ```
 
-**Penjelasan:** 
+**Penjelasan:** Menampilkan nilai pentingnya fitur, pengguna dapat mengevaluasi dan menginterpretasikan hasil model, serta mengidentifikasi variabel mana yang perlu diperhatikan lebih lanjut dalam konteks kinerja siswa (Dengan nilai: G1=3760.6056; G2=6084.5543; studytime=316.5032; failures=700.0646; freetime=282.1307; goout=333.2419).
 
 ```{r}
 print("Regresi - Metrik:")
@@ -574,7 +576,7 @@ print(paste("MAE:", student_regression_results$mae))
 print(paste("RMSE:", student_regression_results$rmse))
 ```
 
-**Penjelasan:** 
+**Penjelasan:** Menampilkan Mean Absolute Error (MAE nilai=1.1100683318354) dan Root Mean Squared Error (RMSE nilai=1.79924415122392). 
 
 ### 3.2 Classification
 
