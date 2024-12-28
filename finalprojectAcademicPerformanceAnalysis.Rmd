@@ -67,7 +67,7 @@ Gambaran umum tentang dataset, termasuk dimensi, tipe data, dan potensi isu yang
 #### 1.3.1 Deskripsi Dataset:
 
 | No | Nama Variabel | Type | Deskripsi |
-|------|------------------|------------------|------------------------------|
+|-----|-------------|-----------|--------------------------------------------|
 | 1 | school | Categorical | 'student's school (GP' - Gabriel Pereira atau 'MS' - Mousinho da Silveira) |
 | 2 | sex | Binary | student's sex (binary: 'F' - female or 'M' - male) |
 | 3 | age | Integer | student's age (numeric: from 15 to 22) |
@@ -495,7 +495,7 @@ student_prepare_data <- function(student_data) {
 student_data_processed <- student_prepare_data(student_data)
 ```
 
-**Penjelasan:**  Mengimplementasikan langkah persiapan data yang telah didefinisikan sebelumnya. Dengan memproses data siswa dan menyimpannya dalam variabel student_data_processed, analisis selanjutnya dapat dilakukan dengan lebih terstruktur dan efisien.
+**Penjelasan:** Mengimplementasikan langkah persiapan data yang telah didefinisikan sebelumnya. Dengan memproses data siswa dan menyimpannya dalam variabel student_data_processed, analisis selanjutnya dapat dilakukan dengan lebih terstruktur dan efisien.
 
 ## 3. Modeling
 
@@ -576,7 +576,7 @@ print(paste("MAE:", student_regression_results$mae))
 print(paste("RMSE:", student_regression_results$rmse))
 ```
 
-**Penjelasan:** Menampilkan Mean Absolute Error (MAE nilai=1.1100683318354) dan Root Mean Squared Error (RMSE nilai=1.79924415122392). 
+**Penjelasan:** Menampilkan Mean Absolute Error (MAE nilai=1.1100683318354) dan Root Mean Squared Error (RMSE nilai=1.79924415122392).
 
 ### 3.2 Classification
 
@@ -775,15 +775,15 @@ student_clustering_results <- student_perform_clustering_analysis(student_data)
 ```
 
 **Penjelasan:** Berikut penjelasan metode yang digunakan pada clustering:
-1. Metode Elbow:
-Fungsi student_elbow_method digunakan untuk menentukan jumlah optimal kluster (k) dengan menghitung total within-cluster sum of squares (WSS) untuk k dari 1 hingga 10.Dengan visualisasi yang ditingkatkan menggunakan ggplot2, plot ini membantu dalam mengidentifikasi titik "elbow" yang menunjukkan jumlah kluster yang ideal. (Dengan titik "elbow" berada di k=6)
-2. K-Means Klustering:
-Fungsi student_perform_kmeans melakukan klustering K-Means dengan jumlah kluster yang ditentukan (default k = 3). Hasil klustering juga dianalisis menggunakan silhouette plot untuk mengevaluasi seberapa baik klustering dilakukan. (Dengan hasil yang lumayan bagus, setiap cluster positif yang mendekati 1)
-3. Visualisasi PCA:
-Fungsi student_pca_visualization menghasilkan visualisasi dari hasil PCA (Principal Component Analysis) untuk menunjukkan bagaimana data terdistribusi dalam ruang dua dimensi berdasarkan kluster yang dihasilkan. Ini membantu dalam memahami struktur data dan karakteristik setiap kluster. (Dengan PCA yang berada di antara -3 dan 2)
-4. Matriks Korelasi:
-Matriks korelasi dihitung untuk mengeksplorasi hubungan antara variabel studytime, freetime, goout, dan nilai akademik G1, G2, G3. Visualisasi matriks korelasi menggunakan corrplot untuk memberikan gambaran visual tentang hubungan antar variabel. (Dengan hasil berada  diantara -1 dan 1, jika mendekati 1 maka hubungan dari varibel tersebut kuat begitupun sebaliknya)
-5. Distribusi Kategori Kinerja:
-Kategori kinerja siswa dibagi menjadi tiga kelompok: low, medium, dan high berdasarkan nilai G2. Visualisasi distribusi ini menggunakan bar plot untuk menunjukkan jumlah siswa dalam setiap kategori. (Dengan hasil low=291, medium=588, high=165 )
-6. Karakteristik Kluster:
-Analisis karakteristik kluster dilakukan dengan menghitung rata-rata studytime, freetime, dan goout untuk setiap kluster. Ini memberikan wawasan tentang perilaku dan kebiasaan siswa dalam setiap kluster. (Dengan hasil cluster 1 = mean_studytime(1.630233), mean_freetime(2.634884), mean_goout(2.413953); cluster 2 = mean_studytime(3.289720), mean_freetime(3.009346), mean_goout(2.850467); cluster 3 = mean_studytime(1.630000), mean_freetime(3.912500), mean_goout(4.117500))
+
+1.  Metode Elbow: Fungsi student_elbow_method digunakan untuk menentukan jumlah optimal kluster (k) dengan menghitung total within-cluster sum of squares (WSS) untuk k dari 1 hingga 10.Dengan visualisasi yang ditingkatkan menggunakan ggplot2, plot ini membantu dalam mengidentifikasi titik "elbow" yang menunjukkan jumlah kluster yang ideal. (Dengan titik "elbow" berada di k=6).
+
+2.  K-Means Klustering: Fungsi student_perform_kmeans melakukan klustering K-Means dengan jumlah kluster yang ditentukan (default k = 3). Hasil klustering juga dianalisis menggunakan silhouette plot untuk mengevaluasi seberapa baik klustering dilakukan. (Dengan hasil yang lumayan bagus, setiap cluster positif yang mendekati 1).
+
+3.  Visualisasi PCA: Fungsi student_pca_visualization menghasilkan visualisasi dari hasil PCA (Principal Component Analysis) untuk menunjukkan bagaimana data terdistribusi dalam ruang dua dimensi berdasarkan kluster yang dihasilkan. Ini membantu dalam memahami struktur data dan karakteristik setiap kluster. (Dengan PCA yang berada di antara -3 dan 2).
+
+4.  Matriks Korelasi: Matriks korelasi dihitung untuk mengeksplorasi hubungan antara variabel studytime, freetime, goout, dan nilai akademik G1, G2, G3. Visualisasi matriks korelasi menggunakan corrplot untuk memberikan gambaran visual tentang hubungan antar variabel. (Dengan hasil berada diantara -1 dan 1, jika mendekati 1 maka hubungan dari varibel tersebut kuat begitupun sebaliknya).
+
+5.  Distribusi Kategori Kinerja: Kategori kinerja siswa dibagi menjadi tiga kelompok: low, medium, dan high berdasarkan nilai G2. Visualisasi distribusi ini menggunakan bar plot untuk menunjukkan jumlah siswa dalam setiap kategori. (Dengan hasil low=291, medium=588, high=165 ).
+
+6.  Karakteristik Kluster: Analisis karakteristik kluster dilakukan dengan menghitung rata-rata studytime, freetime, dan goout untuk setiap kluster. Ini memberikan wawasan tentang perilaku dan kebiasaan siswa dalam setiap kluster. (Dengan hasil cluster 1 = mean_studytime(1.630233), mean_freetime(2.634884), mean_goout(2.413953); cluster 2 = mean_studytime(3.289720), mean_freetime(3.009346), mean_goout(2.850467); cluster 3 = mean_studytime(1.630000), mean_freetime(3.912500), mean_goout(4.117500))
