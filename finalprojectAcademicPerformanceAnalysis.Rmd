@@ -1,7 +1,7 @@
 ---
-title: "Mini Project Academic Performance Analysis"
+title: "Final Project Academic Performance Analysis"
 author: "Deni Permana - Diaz Fahreza Akbar"
-date: "2024-11-24"
+date: "`r Sys.Date()`"
 output: pdf_document
 ---
 
