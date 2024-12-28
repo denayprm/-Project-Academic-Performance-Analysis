@@ -415,7 +415,7 @@ library(NbClust)  # Memfasilitasi penentuan jumlah cluster optimal dengan berbag
 library(viridis)  # Menawarkan palet warna yang baik untuk visualisasi yang dapat diakses
 ```
 
-**Penjelasan:**
+**Penjelasan:** Memuat tambahan paket yang diperlukan untuk analisis data.
 
 ## 1. Cleaning Data
 
@@ -426,7 +426,7 @@ student_por_data$course <- "Portuguese"
 student_data <- bind_rows(student_mat_data, student_por_data)
 ```
 
-**Penjelasan:**
+**Penjelasan:** Kolom baru ditambahkan untuk menunjukkan jenis kursus (matematika atau bahasa Portugis) dalam masing-masing dataset. Kemudian, kedua dataset digabung menggunakan bind_rows() untuk membuat satu dataset komprehensif (student_data) yang mencakup semua informasi siswa.
 
 ```{r}
 # 2. Select Columns
@@ -436,7 +436,7 @@ selected_columns <- c("sex", "age", "address", "studytime", "failures",
 student_data <- student_data[, selected_columns]
 ```
 
-**Penjelasan:**
+**Penjelasan:** Memilih kolom-kolom yang relevan untuk analisis lebih lanjut. Dengan menyimpan hanya kolom yang diperlukan(kolom yang dipilih: sex, age, address, studytime, failures, schoolsup, famsup, freetime, goout, romantic, G1, G2, G3 ), dataset menjadi lebih ringkas dan fokus pada variabel yang berdampak pada performa akademik.
 
 ```{r}
 # 3. Pre-Process Categorical Data
@@ -450,21 +450,21 @@ student_data <- student_data %>%
   )
 ```
 
-**Penjelasan:**
+**Penjelasan:** Data kategorikal diubah menjadi format numerik untuk mempermudah analisis. Misalnya, jenis kelamin (sex) diubah menjadi 0 (perempuan) dan 1 (laki-laki), serta variabel lainnya seperti alamat, dukungan sekolah, dukungan keluarga, dan status hubungan juga dikonversi ke 0 dan 1. Ini membuat data lebih siap untuk digunakan dalam model analisis.
 
 ```{r}
 # 4. Handle Empty Values
 student_data <- na.omit(student_data)
 ```
 
-**Penjelasan:**
+**Penjelasan:** Menghapus semua baris yang memiliki nilai kosong (NA) dari dataset.
 
 ```{r}
 # 6. Display Cleared Data
 head(student_data, 5)
 ```
 
-**Penjelasan:**
+**Penjelasan:** Menampilkan lima baris pertama dari dataset yang telah dibersihkan.
 
 ## 2. Pre-Processing
 
