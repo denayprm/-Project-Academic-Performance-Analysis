@@ -655,14 +655,11 @@ student_perform_clustering_analysis <- function(student_data) {
     wss <- sapply(1:10, function(k) {
       kmeans(student_data, centers = k, nstart = 25)$tot.withinss
     })
-    
-    optimal_k <- which(diff(diff(wss)) == min(diff(diff(wss)))) + 1  # Optimal k
-    
+     
     student_plt_elbow <- ggplot(data.frame(k = 1:10, wss = wss), 
                                 aes(x = k, y = wss)) +
       geom_line(color = "steelblue", size = 1.2) +
       geom_point(color = "darkorange", size = 3) +
-      geom_vline(xintercept = optimal_k, linetype = "dashed", color = "red") +
       labs(title = "Elbow Method for Optimal Clusters",
            x = "Number of Clusters (k)",
            y = "Total Within-Cluster Sum of Squares") +
