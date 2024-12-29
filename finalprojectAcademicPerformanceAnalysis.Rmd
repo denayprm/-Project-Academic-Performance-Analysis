@@ -655,14 +655,11 @@ student_perform_clustering_analysis <- function(student_data) {
     wss <- sapply(1:10, function(k) {
       kmeans(student_data, centers = k, nstart = 25)$tot.withinss
     })
-    
-    optimal_k <- which(diff(diff(wss)) == min(diff(diff(wss)))) + 1  # Optimal k
-    
+     
     student_plt_elbow <- ggplot(data.frame(k = 1:10, wss = wss), 
                                 aes(x = k, y = wss)) +
       geom_line(color = "steelblue", size = 1.2) +
       geom_point(color = "darkorange", size = 3) +
-      geom_vline(xintercept = optimal_k, linetype = "dashed", color = "red") +
       labs(title = "Elbow Method for Optimal Clusters",
            x = "Number of Clusters (k)",
            y = "Total Within-Cluster Sum of Squares") +
@@ -776,7 +773,7 @@ student_clustering_results <- student_perform_clustering_analysis(student_data)
 
 **Penjelasan:** Berikut penjelasan metode yang digunakan pada clustering:
 
-1.  Metode Elbow: Fungsi student_elbow_method digunakan untuk menentukan jumlah optimal kluster (k) dengan menghitung total within-cluster sum of squares (WSS) untuk k dari 1 hingga 10.Dengan visualisasi yang ditingkatkan menggunakan ggplot2, plot ini membantu dalam mengidentifikasi titik "elbow" yang menunjukkan jumlah kluster yang ideal. (Dengan titik "elbow" berada di k=6).
+1.  Metode Elbow: Fungsi student_elbow_method digunakan untuk menentukan jumlah optimal kluster (k) dengan menghitung total within-cluster sum of squares (WSS) untuk k dari 1 hingga 10.Dengan visualisasi yang ditingkatkan menggunakan ggplot2, plot ini membantu dalam mengidentifikasi titik "elbow" yang menunjukkan jumlah kluster yang ideal. 
 
 2.  K-Means Klustering: Fungsi student_perform_kmeans melakukan klustering K-Means dengan jumlah kluster yang ditentukan (default k = 3). Hasil klustering juga dianalisis menggunakan silhouette plot untuk mengevaluasi seberapa baik klustering dilakukan. (Dengan hasil yang lumayan bagus, setiap cluster positif yang mendekati 1).
 
