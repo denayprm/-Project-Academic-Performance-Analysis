@@ -773,7 +773,7 @@ student_clustering_results <- student_perform_clustering_analysis(student_data)
 
 **Penjelasan:** Berikut penjelasan metode yang digunakan pada clustering:
 
-1.  Metode Elbow: Fungsi student_elbow_method digunakan untuk menentukan jumlah optimal kluster (k) dengan menghitung total within-cluster sum of squares (WSS) untuk k dari 1 hingga 10.Dengan visualisasi yang ditingkatkan menggunakan ggplot2, plot ini membantu dalam mengidentifikasi titik "elbow" yang menunjukkan jumlah kluster yang ideal. (Dengan titik "elbow" berada di k=6).
+1.  Metode Elbow: Fungsi student_elbow_method digunakan untuk menentukan jumlah optimal kluster (k) dengan menghitung total within-cluster sum of squares (WSS) untuk k dari 1 hingga 10.Dengan visualisasi yang ditingkatkan menggunakan ggplot2, plot ini membantu dalam mengidentifikasi titik "elbow" yang menunjukkan jumlah kluster yang ideal. 
 
 2.  K-Means Klustering: Fungsi student_perform_kmeans melakukan klustering K-Means dengan jumlah kluster yang ditentukan (default k = 3). Hasil klustering juga dianalisis menggunakan silhouette plot untuk mengevaluasi seberapa baik klustering dilakukan. (Dengan hasil yang lumayan bagus, setiap cluster positif yang mendekati 1).
 
